@@ -9,19 +9,19 @@ namespace Apartment_API.Controllers
     [ApiController]
     public class ApartmentAPIController : ControllerBase
     {
-        private readonly ILogger<ApartmentAPIController> _logger;
 
-        public ApartmentAPIController(ILogger<ApartmentAPIController> logger)
+        public ApartmentAPIController( )
         {
-            _logger = logger;
+           
         }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<ApartmentDTO> GetApartments()
         {
-            _logger.LogInformation("Getting all apartments");
             return Ok(ApartmentStore.apartmentList);
         }
+
         [HttpGet("{id:int}", Name = "GetApartment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -30,7 +30,6 @@ namespace Apartment_API.Controllers
         {
             if (id == 0)
             {
-                _logger.LogError("Get apartment Error with Ii" + id);
                 return BadRequest();
             }
             var apartment = ApartmentStore.apartmentList.FirstOrDefault(u => u.Id == id);
