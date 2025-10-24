@@ -19,22 +19,22 @@ namespace Apartment_API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<ApartmentDTO> GetApartments()
+        public async Task<ActionResult<ApartmentDTO>> GetApartments()
         {
-            return Ok(_db.Apartments.ToList());
+            return Ok(await _db.Apartments.ToListAsync());
         }
 
         [HttpGet("{id:int}", Name = "GetApartment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ApartmentDTO> GetApartments(int id)
+        public async Task<ActionResult<ApartmentDTO>> GetApartments(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
-            var apartment = _db.Apartments.FirstOrDefault(u => u.Id == id);
+            var apartment = await _db.Apartments.FirstOrDefaultAsync(u => u.Id == id);
             if (apartment == null)
             {
                 return NotFound();
@@ -45,13 +45,13 @@ namespace Apartment_API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ApartmentDTO> CreateApartment([FromBody] ApartmentCreateDTO apartmentDTO)
+        public async Task<ActionResult<ApartmentDTO>> CreateApartment([FromBody] ApartmentCreateDTO apartmentDTO)
         {
             //if(!ModelState.IsValid)
             //{
             //    return BadRequest(ModelState); 
             //}
-            if (_db.Apartments.FirstOrDefault(u => u.Name.ToLower() == apartmentDTO.Name.ToLower()) != null)
+            if (await _db.Apartments.FirstOrDefaultAsync(u => u.Name.ToLower() == apartmentDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Apartment already Exists!");
                 return BadRequest(ModelState);
@@ -77,8 +77,8 @@ namespace Apartment_API.Controllers
                 Sqft = apartmentDTO.Sqft,
                 Amenity = apartmentDTO.Amenity
             };
-            _db.Apartments.Add(model);
-            _db.SaveChanges();
+            await _db.Apartments.AddAsync(model);
+            await _db.SaveChangesAsync();
 
             return CreatedAtRoute("GetApartment", new { id = model.Id }, model);
         }
@@ -87,25 +87,25 @@ namespace Apartment_API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:int}", Name = "DeleteApartment")]
-        public ActionResult<ApartmentDTO> DeleteApartment(int id)
+        public async Task<ActionResult<ApartmentDTO>> DeleteApartment(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
-            var apartment = _db.Apartments.FirstOrDefault(u => u.Id == id);
+            var apartment = await _db.Apartments.FirstOrDefaultAsync(u => u.Id == id);
             if (apartment == null)
             {
                 return NotFound();
             }
             _db.Apartments.Remove(apartment);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateApartment(int id, [FromBody] ApartmentUpdateDTO apartmentDTO)
+        public async Task<IActionResult> UpdateApartment(int id, [FromBody] ApartmentUpdateDTO apartmentDTO)
         {
             if (apartmentDTO == null || id != apartmentDTO.Id)
             {
@@ -128,19 +128,19 @@ namespace Apartment_API.Controllers
                 CreatedDate = DateTime.Now
             };
             _db.Apartments.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialApartment")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialApartment(int id, JsonPatchDocument<ApartmentUpdateDTO> patchDTO)
+        public async Task<IActionResult> UpdatePartialApartment(int id, JsonPatchDocument<ApartmentUpdateDTO> patchDTO)
         {
             if (patchDTO == null || id == 0)
             {
                 return BadRequest();
             }
-            var apartment = _db.Apartments.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            var apartment = await _db.Apartments.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
 
             ApartmentUpdateDTO apartmentDTO = new()
             {
@@ -170,7 +170,7 @@ namespace Apartment_API.Controllers
                 Sqft = apartmentDTO.Sqft
             };
             _db.Apartments.Update(model);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
             if (!ModelState.IsValid)
             {
