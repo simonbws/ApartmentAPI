@@ -45,7 +45,7 @@ namespace Apartment_API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<ApartmentDTO> CreateApartment([FromBody] ApartmentDTO apartmentDTO)
+        public ActionResult<ApartmentDTO> CreateApartment([FromBody] ApartmentCreateDTO apartmentDTO)
         {
             //if(!ModelState.IsValid)
             //{
@@ -60,10 +60,10 @@ namespace Apartment_API.Controllers
             {
                 return BadRequest(apartmentDTO);
             }
-            if (apartmentDTO.Id > 0)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+            //if (apartmentDTO.Id > 0)
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError);
+            //}
             // mapujemy dane poniewaz musimy dodac DTO do bazy danych. DTO nie jest encja, więc EF Core nie wie jak to zapisać w SQL. Apartament to warstwa bazy danych DbSet<Apartment>
             // ApartmentDTO to warstwa API. Musimy zmapowaćDTO na model bazy danych (Apartment).
             //Używamy DTO, bo encje (model bazy) nie zawsze powinien wychodzić na zewnątrz API. DTO to filtr bezpieczeństwa i wygody między API, a bazą danych.
@@ -75,13 +75,12 @@ namespace Apartment_API.Controllers
                 Occupancy = apartmentDTO.Occupancy,
                 Rate = apartmentDTO.Rate,
                 Sqft = apartmentDTO.Sqft,
-                Amenity = apartmentDTO.Amenity,
-                CreatedDate = DateTime.Now
+                Amenity = apartmentDTO.Amenity
             };
             _db.Apartments.Add(model);
             _db.SaveChanges();
 
-            return CreatedAtRoute("GetApartment", new { id = apartmentDTO.Id }, apartmentDTO);
+            return CreatedAtRoute("GetApartment", new { id = model.Id }, model);
         }
 
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -106,7 +105,7 @@ namespace Apartment_API.Controllers
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateApartment(int id, [FromBody] ApartmentDTO apartmentDTO)
+        public IActionResult UpdateApartment(int id, [FromBody] ApartmentUpdateDTO apartmentDTO)
         {
             if (apartmentDTO == null || id != apartmentDTO.Id)
             {
@@ -135,7 +134,7 @@ namespace Apartment_API.Controllers
         [HttpPatch("{id:int}", Name = "UpdatePartialApartment")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult UpdatePartialApartment(int id, JsonPatchDocument<ApartmentDTO> patchDTO)
+        public IActionResult UpdatePartialApartment(int id, JsonPatchDocument<ApartmentUpdateDTO> patchDTO)
         {
             if (patchDTO == null || id == 0)
             {
@@ -143,7 +142,7 @@ namespace Apartment_API.Controllers
             }
             var apartment = _db.Apartments.AsNoTracking().FirstOrDefault(u => u.Id == id);
 
-            ApartmentDTO apartmentDTO = new()
+            ApartmentUpdateDTO apartmentDTO = new()
             {
                 Amenity = apartment.Amenity,
                 Details = apartment.Details,
