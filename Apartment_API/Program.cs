@@ -1,4 +1,5 @@
 
+using Apartment_API;
 using Apartment_API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
-
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers(option =>
 {
     //option.ReturnHttpNotAcceptable = true;
