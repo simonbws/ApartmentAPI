@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartment_API", "Apartment_API\Apartment_API.csproj", "{EBDB4F1C-8F37-4FC8-8D38-83F8C9DE7D96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apartment_Web", "Apartment_Web\Apartment_Web.csproj", "{43BC121A-CBCB-4145-8A11-D035C43E8BFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EBDB4F1C-8F37-4FC8-8D38-83F8C9DE7D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBDB4F1C-8F37-4FC8-8D38-83F8C9DE7D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBDB4F1C-8F37-4FC8-8D38-83F8C9DE7D96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43BC121A-CBCB-4145-8A11-D035C43E8BFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43BC121A-CBCB-4145-8A11-D035C43E8BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43BC121A-CBCB-4145-8A11-D035C43E8BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43BC121A-CBCB-4145-8A11-D035C43E8BFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
