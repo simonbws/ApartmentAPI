@@ -2,10 +2,22 @@
 
 namespace Apartment_API.Models.DTO
 {
-    public class ApartmentNumberUpdateDTO
+    public class ApartmentUpdateDTO
     {
         [Required]
-        public int ApartmentNo { get; set; }
-        public string SpecialDetails { get; set; }
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(30)]
+        public string Name { get; set; }
+        public string Details { get; set; }
+        [Required]
+        public double Rate { get; set; }
+        [Required]
+        public int Occupancy { get; set; }
+        [Required]
+        public int Sqft { get; set; }
+        [Required]
+        public string ImageUrl { get; set; }
+        public string Amenity { get; set; }
     }
 }

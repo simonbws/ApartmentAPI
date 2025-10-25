@@ -176,8 +176,6 @@ namespace Apartment_API.Controllers
         {
             try
             {
-
-
                 if (updateDTO == null || id != updateDTO.Id)
                 {
                     return BadRequest();
@@ -199,7 +197,7 @@ namespace Apartment_API.Controllers
                 //    Amenity = updateDTO.Amenity,
                 //    CreatedDate = DateTime.Now
                 //};
-                _dbApartment.UpdateAsync(model);
+                await _dbApartment.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);

@@ -2,7 +2,7 @@
 
 namespace Apartment_API.Models.DTO
 {
-    public class ApartmentUpdateDTO
+    public class ApartmentNumberUpdateDTO
     {
         [Required]
         public int ApartmentNo { get; set; }
