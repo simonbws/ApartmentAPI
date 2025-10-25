@@ -5,24 +5,24 @@ using Apartment_Web.Services.IServices;
 
 namespace Apartment_Web.Services
 {
-    public class ApartmentNumberService : BaseService, IApartmentNumberService // base service in order to be able to make calls to api
+    public class ApartmentService : BaseService, IApartmentService // base service in order to be able to make calls to api
     {
         private readonly IHttpClientFactory _clientFactory;
         private string apartmentUrl;
 
-        public ApartmentNumberService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory) //base service require IHTTPCLIENT FACTORY so we need to add that to the base class
+        public ApartmentService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory) //base service require IHTTPCLIENT FACTORY so we need to add that to the base class
         {
             _clientFactory = clientFactory;
             apartmentUrl = configuration.GetValue<string>("ServiceUrls:Apartment_API");
 
         }
-        public Task<T> CreateAsync<T>(ApartmentNumberCreateDTO dto)
+        public Task<T> CreateAsync<T>(ApartmentCreateDTO dto)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.POST,
                 Data = dto,
-                Url = apartmentUrl + "/api/apartmentNumberAPI"
+                Url = apartmentUrl + "/api/apartmentAPI"
             });
         }
 
@@ -31,7 +31,7 @@ namespace Apartment_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.DELETE,
-                Url = apartmentUrl + "/api/apartmentNumberAPI/" + id
+                Url = apartmentUrl + "/api/apartmentAPI/" + id
             });
         }
 
@@ -40,7 +40,7 @@ namespace Apartment_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = apartmentUrl + "/api/apartmentNumberAPI"
+                Url = apartmentUrl + "/api/apartmentAPI"
             });
         }
 
@@ -49,17 +49,17 @@ namespace Apartment_Web.Services
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.GET,
-                Url = apartmentUrl + "/api/apartmentNumberAPI/" + id
+                Url = apartmentUrl + "/api/apartmentAPI/" + id
             });
         }
 
-        public Task<T> UpdateAsync<T>(ApartmentNumberUpdateDTO dto)
+        public Task<T> UpdateAsync<T>(ApartmentUpdateDTO dto)
         {
             return SendAsync<T>(new APIRequest()
             {
                 ApiType = SD.ApiType.PUT,
                 Data = dto,
-                Url = apartmentUrl + "/api/apartmentNumberAPI/" + dto.ApartmentNo
+                Url = apartmentUrl + "/api/apartmentAPI/" + dto.Id
             });
         }
     }
