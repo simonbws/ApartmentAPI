@@ -1,6 +1,7 @@
 ﻿using Apartment_API.Data;
 using Apartment_API.Models;
 using Apartment_API.Models.DTO;
+using Apartment_API.Repository.IRepository;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,11 +14,11 @@ namespace Apartment_API.Controllers
     [ApiController]
     public class ApartmentAPIController : ControllerBase
     {
-        private readonly AppDbContext _db;
+        private readonly IApartmentRepository _dbApartment;
         private readonly IMapper _mapper;
-        public ApartmentAPIController(AppDbContext db, IMapper mapper)
+        public ApartmentAPIController(IApartmentRepository dbApartment, IMapper mapper)
         {
-            _db = db;
+            _dbApartment = dbApartment;
             _mapper = mapper;
         }
 
@@ -25,7 +26,7 @@ namespace Apartment_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<ApartmentDTO>> GetApartments()
         {
-            IEnumerable<Apartment> apartmentList = await _db.Apartments.ToListAsync();
+            IEnumerable<Apartment> apartmentList = await _dbApartment.GetAllAsync();
             return Ok(_mapper.Map<List<ApartmentDTO>>(apartmentList));
         }
 
@@ -39,7 +40,7 @@ namespace Apartment_API.Controllers
             {
                 return BadRequest();
             }
-            var apartment = await _db.Apartments.FirstOrDefaultAsync(u => u.Id == id);
+            var apartment = await _dbApartment.GetAsync(u => u.Id == id);
             if (apartment == null)
             {
                 return NotFound();
@@ -56,7 +57,7 @@ namespace Apartment_API.Controllers
             //{
             //    return BadRequest(ModelState); 
             //}
-            if (await _db.Apartments.FirstOrDefaultAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
+            if (await _dbApartment.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Apartment already Exists!");
                 return BadRequest(ModelState);
@@ -87,9 +88,7 @@ namespace Apartment_API.Controllers
             //    Sqft = createDTO.Sqft,
             //    Amenity = createDTO.Amenity
             //};
-            await _db.Apartments.AddAsync(model);
-            await _db.SaveChangesAsync();
-
+            await _dbApartment.CreateAsync(model);
             return CreatedAtRoute("GetApartment", new { id = model.Id }, model);
         }
 
@@ -103,13 +102,12 @@ namespace Apartment_API.Controllers
             {
                 return BadRequest();
             }
-            var apartment = await _db.Apartments.FirstOrDefaultAsync(u => u.Id == id);
+            var apartment = await _dbApartment.GetAsync(u => u.Id == id);
             if (apartment == null)
             {
                 return NotFound();
             }
-            _db.Apartments.Remove(apartment);
-            await _db.SaveChangesAsync();
+            await _dbApartment.RemoveAsync(apartment);
             return NoContent();
         }
         [HttpPut("{id:int}", Name = "UpdateVilla")]
@@ -138,8 +136,7 @@ namespace Apartment_API.Controllers
             //    Amenity = updateDTO.Amenity,
             //    CreatedDate = DateTime.Now
             //};
-            _db.Apartments.Update(model);
-            await _db.SaveChangesAsync();
+            _dbApartment.UpdateAsync(model);
             return NoContent();
         }
         [HttpPatch("{id:int}", Name = "UpdatePartialApartment")]
@@ -151,7 +148,7 @@ namespace Apartment_API.Controllers
             {
                 return BadRequest();
             }
-            var apartment = await _db.Apartments.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+            var apartment = await _dbApartment.GetAsync(u => u.Id == id, tracked:false);
 
             ApartmentUpdateDTO apartmentDTO = _mapper.Map<ApartmentUpdateDTO>(apartment);
             //ApartmentUpdateDTO apartmentDTO = new()
@@ -183,8 +180,7 @@ namespace Apartment_API.Controllers
             //    Rate = apartmentDTO.Rate,
             //    Sqft = apartmentDTO.Sqft
             //};
-            _db.Apartments.Update(model);
-            await _db.SaveChangesAsync();
+            await _dbApartment.UpdateAsync(model);
 
             if (!ModelState.IsValid)
             {
