@@ -1,3 +1,87 @@
 ﻿@model Apartment_Web.Models.DTO.ApartmentCreateDTO
 
+<form asp-action="CreateApartment">
+    <div class="container border p-4 rounded">
+        <h1 class="text-primary mb-3">Create Apartment</h1>
+        <hr />
 
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <!-- Name -->
+            <div class="col-md-2 d-flex align-items-center">
+                <label asp-for="Name" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Rate -->
+            <div class="col-md-2 d-flex align-items-center">
+                <label asp-for="Rate" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <input asp-for="Rate" class="form-control" />
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+
+            <!-- Details -->
+            <div class="col-md-2 d-flex align-items-start">
+                <label asp-for="Details" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <textarea asp-for="Details" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Details" class="text-danger"></span>
+            </div>
+
+            <!-- ImageUrl -->
+            <div class="col-md-2 d-flex align-items-center">
+                <label asp-for="ImageUrl" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <!-- Occupancy -->
+            <div class="col-md-2 d-flex align-items-center">
+                <label asp-for="Occupancy" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <input asp-for="Occupancy" class="form-control" />
+                <span asp-validation-for="Occupancy" class="text-danger"></span>
+            </div>
+
+            <!-- Sqft -->
+            <div class="col-md-2 d-flex align-items-center">
+                <label asp-for="Sqft" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <input asp-for="Sqft" class="form-control" />
+                <span asp-validation-for="Sqft" class="text-danger"></span>
+            </div>
+
+            <!-- Amenity -->
+            <div class="col-md-2 d-flex align-items-start">
+                <label asp-for="Amenity" class="control-label mb-0" style="font-size:18px;"></label>
+            </div>
+            <div class="col-md-10">
+                <textarea asp-for="Amenity" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Amenity" class="text-danger"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-md-5 offset-md-2">
+                <a asp-action="IndexApartment" asp-controller="Apartment" class="btn btn-primary w-100">Back to List</a>
+            </div>
+            <div class="col-md-5">
+                <input type="submit" value="Create" class="btn btn-success w-100" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
