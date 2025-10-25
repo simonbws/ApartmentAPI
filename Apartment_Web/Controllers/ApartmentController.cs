@@ -76,5 +76,30 @@ namespace Apartment_Web.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> DeleteApartment(int apartmentId)
+        {
+            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
+            if (response != null && response.IsSuccess)
+            {
+                ApartmentDTO model = JsonConvert.DeserializeObject<ApartmentDTO>(Convert.ToString(response.Result));
+                return View(model);
+            }
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteApartment(ApartmentDTO model) // we receive apartmentdto here
+        {
+
+            var response = await _apartmentService.DeleteAsync<APIResponse>(model.Id);
+            if (response != null && response.IsSuccess)
+            {
+                return RedirectToAction(nameof(IndexApartment));
+            }
+
+            return View(model);
+        }
+
     }
 }
