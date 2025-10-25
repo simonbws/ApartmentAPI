@@ -2,6 +2,7 @@
 using Apartment_API.Models.DTO;
 using Apartment_API.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -13,13 +14,16 @@ namespace Apartment_API.Controllers
     {
         protected APIResponse _response;
         private readonly IApartmentNumberRepository _dbApartmentNumber;
+        private readonly IApartmentRepository _dbApartment;
         private readonly IMapper _mapper;
 
-        public ApartmentNumberAPIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper)
+        public ApartmentNumberAPIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
         {
             _dbApartmentNumber = dbApartmentNumber;
             _mapper = mapper;
             this._response = new APIResponse();
+            _dbApartment = dbApartment;
+
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -86,6 +90,11 @@ namespace Apartment_API.Controllers
                     ModelState.AddModelError("CustomError", "Apartment Number already Exists!");
                     return BadRequest(ModelState);
                 }
+                if (await _dbApartment.GetAsync(u => u.Id == createDTO.ApartmentID) == null)
+                {
+                    ModelState.AddModelError("CustomError", "Apartment ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
                 if (createDTO == null)
                 {
                     return BadRequest(createDTO);
@@ -148,7 +157,11 @@ namespace Apartment_API.Controllers
                 {
                     return BadRequest();
                 }
-
+                if (await _dbApartment.GetAsync(u => u.Id == updateDTO.ApartmentID) == null)
+                {
+                    ModelState.AddModelError("CustomError", "Apartment ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
                 ApartmentNumber model = _mapper.Map<ApartmentNumber>(updateDTO);
 
                 await _dbApartmentNumber.UpdateAsync(model);
