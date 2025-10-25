@@ -61,7 +61,7 @@ namespace Apartment_Web.Controllers
             return NotFound();
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateApartment(ApartmentUpdateDTO model)
         {
