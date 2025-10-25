@@ -35,7 +35,7 @@ namespace Apartment_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateVilla(ApartmentCreateDTO model)
+        public async Task<IActionResult> CreateApartment(ApartmentCreateDTO model)
         {
             if (ModelState.IsValid)
             {
