@@ -28,5 +28,25 @@ namespace Apartment_Web.Controllers
 
             return View(list);
         }
+        public async Task<IActionResult> CreateApartment()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateVilla(ApartmentCreateDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var response = await _apartmentService.CreateAsync<APIResponse>(model);
+                if (response != null && response.IsSuccess)
+                {
+                    return RedirectToAction(nameof(IndexApartment));
+                }
+            }
+            return View(model);
+        }
     }
 }
