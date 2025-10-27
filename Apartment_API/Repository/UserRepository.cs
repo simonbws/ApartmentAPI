@@ -7,10 +7,12 @@ namespace Apartment_API.Repository
     public class UserRepository
     {
         private readonly AppDbContext _db;
+        private string secretKey;
 
-        public UserRepository(AppDbContext db)
+        public UserRepository(AppDbContext db, IConfiguration configuration)
         {
             _db = db;
+            secretKey = configuration.GetValue<string>("ApiSettings:Secret");
         }
 
         public bool IsUniqueUser(string username)
@@ -25,7 +27,14 @@ namespace Apartment_API.Repository
 
         public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
         {
-            throw new NotImplementedException();
+            var user = _db.LocalUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDTO.UserName.ToLower()
+            && u.Password == loginRequestDTO.Password);
+
+            if (user == null)
+            {
+                return null;
+            }
+            //if user was found generate JWT Token
         }
 
         public async Task<LocalUser> Register(RegisterationRequestDTO registerationRequestDTO)
