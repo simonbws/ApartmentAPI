@@ -13,6 +13,7 @@ namespace Apartment_API.Repository
         public Repository(AppDbContext db)
         {
             _db = db;
+            //_db.ApartmentNumbers.Include(u => u.Apartment).ToList();
             this.dbSet = _db.Set<T>();
         }
         public async Task CreateAsync(T entity)
@@ -20,8 +21,8 @@ namespace Apartment_API.Repository
             await dbSet.AddAsync(entity);
             await SaveAsync();
         }
-
-        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+        //"Apartment, ApartmentSpecial
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (!tracked)
@@ -32,16 +33,32 @@ namespace Apartment_API.Repository
             {
                 query = query.Where(filter);
             }
+            //"Apartment, ApartmentSpecial
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             // because this is single Get, we use FirstOrDefault instead of ToList.
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
             {
                 query = query.Where(filter);
+            }
+            //"Apartment, ApartmentSpecial
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
             }
             // At this point the query will be executed. This is deferred execution. ToList() causes immediate execution.
             return await query.ToListAsync();
