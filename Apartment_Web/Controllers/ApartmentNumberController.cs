@@ -80,56 +80,96 @@ namespace Apartment_Web.Controllers
             }
             return View(model);
         }
-        //public async Task<IActionResult> UpdateApartment(int apartmentId)
-        //{
-        //    var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
-        //    if (response != null && response.IsSuccess)
-        //    {
-        //        ApartmentDTO model = JsonConvert.DeserializeObject<ApartmentDTO>(Convert.ToString(response.Result));
-        //        return View(_mapper.Map<ApartmentUpdateDTO>(model));
-        //    }
-        //    return NotFound();
-        //}
+        public async Task<IActionResult> UpdateApartmentNumber(int apartmentId)
+        {
+            ApartmentNumberUpdateViewModel apartmentNumberViewModel = new ApartmentNumberUpdateViewModel();
+            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
+            if (response != null && response.IsSuccess)
+            {
+                ApartmentNumberDTO model = JsonConvert.DeserializeObject<ApartmentNumberDTO>(Convert.ToString(response.Result));
+                apartmentNumberViewModel.ApartmentNumber = _mapper.Map<ApartmentNumberUpdateDTO>(model);
+            }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateApartment(ApartmentUpdateDTO model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+            response = await _apartmentService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                apartmentNumberViewModel.ApartmentList = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(response.Result)).Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+            return View(apartmentNumberViewModel);
+            }
+            return NotFound();
+        }
 
-        //        var response = await _apartmentService.UpdateAsync<APIResponse>(model);
-        //        if (response != null && response.IsSuccess)
-        //        {
-        //            return RedirectToAction(nameof(IndexApartment));
-        //        }
-        //    }
-        //    return View(model);
-        //}
-        //public async Task<IActionResult> DeleteApartment(int apartmentId)
-        //{
-        //    var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
-        //    if (response != null && response.IsSuccess)
-        //    {
-        //        ApartmentDTO model = JsonConvert.DeserializeObject<ApartmentDTO>(Convert.ToString(response.Result));
-        //        return View(model);
-        //    }
-        //    return NotFound();
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateApartmentNumber(ApartmentNumberUpdateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteApartment(ApartmentDTO model) // we receive apartmentdto here
-        //{
+                var response = await _apartmentNumberService.UpdateAsync<APIResponse>(model.ApartmentNumber);
+                if (response != null && response.IsSuccess)
+                {
+                    return RedirectToAction(nameof(IndexApartmentNumber));
+                }
+                else
+                {
+                    if (response.ErrorMessages.Count > 0)
+                    {
+                        ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                    }
+                }
+            }
+            var resp = await _apartmentService.GetAllAsync<APIResponse>();
+            if (resp != null && resp.IsSuccess)
+            {
+                model.ApartmentList = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(resp.Result)).Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+            }
+            return View(model);
+        }
+        public async Task<IActionResult> DeleteApartmentNumber(int apartmentId)
+        {
+            ApartmentNumberUpdateViewModel apartmentNumberViewModel = new ApartmentNumberUpdateViewModel();
+            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
+            if (response != null && response.IsSuccess)
+            {
+                ApartmentNumberDTO model = JsonConvert.DeserializeObject<ApartmentNumberDTO>(Convert.ToString(response.Result));
+                apartmentNumberViewModel.ApartmentNumber = _mapper.Map<ApartmentNumberUpdateDTO>(model);
+            }
 
-        //    var response = await _apartmentService.DeleteAsync<APIResponse>(model.Id);
-        //    if (response != null && response.IsSuccess)
-        //    {
-        //        return RedirectToAction(nameof(IndexApartment));
-        //    }
+            response = await _apartmentService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                apartmentNumberViewModel.ApartmentList = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(response.Result)).Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+                return View(apartmentNumberViewModel);
+            }
+            return NotFound();
+        }
 
-        //    return View(model);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteApartmentNumber(ApartmentNumberDeleteViewModel model) // we receive apartmentdto here
+        {
+
+            var response = await _apartmentNumberService.DeleteAsync<APIResponse>(model.ApartmentNumber.ApartmentNo);
+            if (response != null && response.IsSuccess)
+            {
+                return RedirectToAction(nameof(IndexApartmentNumber));
+            }
+
+            return View(model);
+        }
 
     }
 }
