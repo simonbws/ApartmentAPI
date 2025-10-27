@@ -1,32 +1,34 @@
 ﻿using Apartment_Web.Models;
+using Apartment_Web.Models.DTO;
+using Apartment_Web.Services.IServices;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace Apartment_Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IApartmentService _apartmentService;
+        private readonly IMapper _mapper;
+        public HomeController(IApartmentService apartmentService, IMapper mapper)
         {
-            _logger = logger;
+            _apartmentService = apartmentService;
+            _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            List<ApartmentDTO> list = new();
+            var response = await _apartmentService.GetAllAsync<APIResponse>();
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(response.Result));
+            }
 
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(list);
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+       
     }
 }
