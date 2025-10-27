@@ -10,6 +10,7 @@ namespace Apartment_API.Data
             
         }
         public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<LocalUser> LocalUsers { get; set; }
         public DbSet<ApartmentNumber> ApartmentNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
