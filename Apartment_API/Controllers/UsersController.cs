@@ -15,7 +15,7 @@ namespace Apartment_API.Controllers
         public UsersController(IUserRepository userRepo)
         {
             _userRepo = userRepo;
-            this._response = new APIResponse();
+            this._response = new ();
         }
 
         [HttpPost("login")]
