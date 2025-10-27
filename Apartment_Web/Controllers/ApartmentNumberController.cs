@@ -61,6 +61,22 @@ namespace Apartment_Web.Controllers
                 {
                     return RedirectToAction(nameof(IndexApartmentNumber));
                 }
+                else
+                {
+                    if (response.ErrorMessages.Count > 0)
+                    {
+                        ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                    }
+                }
+            }
+            var resp = await _apartmentService.GetAllAsync<APIResponse>();
+            if (resp != null && resp.IsSuccess)
+            {
+                model.ApartmentList = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(resp.Result)).Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
             }
             return View(model);
         }
