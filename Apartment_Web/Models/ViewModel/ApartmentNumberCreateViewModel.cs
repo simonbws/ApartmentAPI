@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Apartment_Web.Models.View_Model
+namespace Apartment_Web.Models.ViewModel
 {
     public class ApartmentNumberCreateViewModel
     {

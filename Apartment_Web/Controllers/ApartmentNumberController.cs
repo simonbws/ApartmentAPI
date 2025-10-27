@@ -1,6 +1,6 @@
 ﻿using Apartment_Web.Models;
 using Apartment_Web.Models.DTO;
-using Apartment_Web.Models.View_Model;
+using Apartment_Web.Models.ViewModel;
 using Apartment_Web.Services;
 using Apartment_Web.Services.IServices;
 using AutoMapper;
@@ -51,15 +51,15 @@ namespace Apartment_Web.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateApartmentNumber(ApartmentNumberCreateDTO model)
+        public async Task<IActionResult> CreateApartmentNumber(ApartmentNumberCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
 
-                var response = await _apartmentService.CreateAsync<APIResponse>(model);
+                var response = await _apartmentNumberService.CreateAsync<APIResponse>(model.ApartmentNumber);
                 if (response != null && response.IsSuccess)
                 {
-                    return RedirectToAction(nameof(IndexApartment));
+                    return RedirectToAction(nameof(IndexApartmentNumber));
                 }
             }
             return View(model);

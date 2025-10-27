@@ -93,7 +93,7 @@ namespace Apartment_API.Controllers
                 //}
                 if (await _dbApartment.GetAsync(u => u.Name.ToLower() == createDTO.Name.ToLower()) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Apartment already Exists!");
+                    ModelState.AddModelError("ErrorMessages", "Apartment already Exists!");
                     return BadRequest(ModelState);
                 }
                 if (createDTO == null)

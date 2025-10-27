@@ -87,12 +87,12 @@ namespace Apartment_API.Controllers
             {
                 if (await _dbApartmentNumber.GetAsync(u => u.ApartmentNo == createDTO.ApartmentNo) != null)
                 {
-                    ModelState.AddModelError("CustomError", "Apartment Number already Exists!");
+                    ModelState.AddModelError("ErrorMessages", "Apartment Number already Exists!");
                     return BadRequest(ModelState);
                 }
                 if (await _dbApartment.GetAsync(u => u.Id == createDTO.ApartmentID) == null)
                 {
-                    ModelState.AddModelError("CustomError", "Apartment ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Apartment ID is Invalid!");
                     return BadRequest(ModelState);
                 }
                 if (createDTO == null)
@@ -159,7 +159,7 @@ namespace Apartment_API.Controllers
                 }
                 if (await _dbApartment.GetAsync(u => u.Id == updateDTO.ApartmentID) == null)
                 {
-                    ModelState.AddModelError("CustomError", "Apartment ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Apartment ID is Invalid!");
                     return BadRequest(ModelState);
                 }
                 ApartmentNumber model = _mapper.Map<ApartmentNumber>(updateDTO);
