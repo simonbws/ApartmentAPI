@@ -12,7 +12,7 @@
        <thead>
            <tr>
                <th>
-                   Apartment Name
+                   Apartment 
                </th>
                <th>
                    Apartment Number
@@ -24,7 +24,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@item.Apartment</td>
+                        <td>@item.Apartment.Name</td>
                         <td>@item.ApartmentNo</td>
                         <td>
                             <a asp-controller="Apartment" asp-action="UpdateApartmentNumber" asp-route-apartmentNo="@item.ApartmentNo" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
