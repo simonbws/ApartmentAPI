@@ -1,11 +1,11 @@
-﻿@model Apartment_Web.Models.ViewModel.ApartmentNumberCreateViewModel
+﻿@model Apartment_Web.Models.ViewModel.ApartmentNumberUpdateViewModel
 
-<form asp-action="CreateApartmentNumber">
+<form asp-action="UpdateApartmentNumber">
     <br />
     <div class="container border p-3">
-        <h1 class="text-primary">Create Villa</h1>
+        <h1 class="text-primary">Update Villa</h1>
         <hr />
-
+        <input hidden asp-for="ApartmentNumber.ApartmentNo" />
         <div class="row">
             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -13,7 +13,7 @@
                 <label asp-for="ApartmentNumber.ApartmentNo" class="control-label pt-2" style="font-size:20px;"></label>
             </div>
             <div class="col-10 pb-3">
-                <input asp-for="ApartmentNumber.ApartmentNo" class="form-control" />
+                <input asp-for="ApartmentNumber.ApartmentNo" disabled class="form-control" />
                 <span asp-validation-for="ApartmentNumber.ApartmentNo" class="text-danger"></span>
             </div>
 
@@ -38,7 +38,7 @@
                 <a asp-action="IndexApartmentNumber" asp-controller="ApartmentNumber" class="btn-primary btn form-control ">Back to List</a>
             </div>
             <div class="col-5">
-                <input type="submit" value="Create" class="btn btn-success form-control" />
+                <input type="submit" value="Update" class="btn btn-success form-control" />
             </div>
         </div>
     </div>
