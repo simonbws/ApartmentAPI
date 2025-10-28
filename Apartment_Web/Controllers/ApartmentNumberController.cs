@@ -4,6 +4,7 @@ using Apartment_Web.Models.ViewModel;
 using Apartment_Web.Services;
 using Apartment_Web.Services.IServices;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace Apartment_Web.Controllers
             return View(list);
         }
 
-        //
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateApartmentNumber()
         {
             // that will populate the drowdown which will be IEnumerable of Select List Item
@@ -49,6 +50,7 @@ namespace Apartment_Web.Controllers
             }
             return View(apartmentNumberViewModel);
         }
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateApartmentNumber(ApartmentNumberCreateViewModel model)
@@ -80,6 +82,7 @@ namespace Apartment_Web.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateApartmentNumber(int apartmentNo)
         {
             ApartmentNumberUpdateViewModel apartmentNumberViewModel = new ApartmentNumberUpdateViewModel();
@@ -102,7 +105,7 @@ namespace Apartment_Web.Controllers
             }
             return NotFound();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateApartmentNumber(ApartmentNumberUpdateViewModel model)
@@ -134,6 +137,7 @@ namespace Apartment_Web.Controllers
             }
             return View(model);
         }
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteApartmentNumber(int apartmentNo)
         {
             ApartmentNumberDeleteViewModel apartmentNumberViewModel = new ApartmentNumberDeleteViewModel();
@@ -156,7 +160,7 @@ namespace Apartment_Web.Controllers
             }
             return NotFound();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteApartmentNumber(ApartmentNumberDeleteViewModel model) // we receive apartmentdto here
