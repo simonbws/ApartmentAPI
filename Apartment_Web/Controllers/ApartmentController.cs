@@ -1,4 +1,5 @@
-﻿using Apartment_Web.Models;
+﻿using Apartment_Utility;
+using Apartment_Web.Models;
 using Apartment_Web.Models.DTO;
 using Apartment_Web.Services.IServices;
 using AutoMapper;
@@ -23,7 +24,7 @@ namespace Apartment_Web.Controllers
         public async Task<IActionResult> IndexApartment()
         {
             List<ApartmentDTO> list = new();
-            var response = await _apartmentService.GetAllAsync<APIResponse>();
+            var response = await _apartmentService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(response.Result));
@@ -44,7 +45,7 @@ namespace Apartment_Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var response = await _apartmentService.CreateAsync<APIResponse>(model);
+                var response = await _apartmentService.CreateAsync<APIResponse>(model, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexApartment));
@@ -55,7 +56,7 @@ namespace Apartment_Web.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateApartment(int apartmentId)
         {
-            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
+            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 ApartmentDTO model = JsonConvert.DeserializeObject<ApartmentDTO>(Convert.ToString(response.Result));
@@ -71,7 +72,7 @@ namespace Apartment_Web.Controllers
             if (ModelState.IsValid)
             {
 
-                var response = await _apartmentService.UpdateAsync<APIResponse>(model);
+                var response = await _apartmentService.UpdateAsync<APIResponse>(model, HttpContext.Session.GetString(SD.SessionToken));
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(IndexApartment));
@@ -82,7 +83,7 @@ namespace Apartment_Web.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteApartment(int apartmentId)
         {
-            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId);
+            var response = await _apartmentService.GetAsync<APIResponse>(apartmentId, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 ApartmentDTO model = JsonConvert.DeserializeObject<ApartmentDTO>(Convert.ToString(response.Result));
@@ -96,7 +97,7 @@ namespace Apartment_Web.Controllers
         public async Task<IActionResult> DeleteApartment(ApartmentDTO model) // we receive apartmentdto here
         {
 
-            var response = await _apartmentService.DeleteAsync<APIResponse>(model.Id);
+            var response = await _apartmentService.DeleteAsync<APIResponse>(model.Id, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 return RedirectToAction(nameof(IndexApartment));

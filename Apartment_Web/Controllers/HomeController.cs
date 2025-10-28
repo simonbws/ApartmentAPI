@@ -1,4 +1,5 @@
-﻿using Apartment_Web.Models;
+﻿using Apartment_Utility;
+using Apartment_Web.Models;
 using Apartment_Web.Models.DTO;
 using Apartment_Web.Services.IServices;
 using AutoMapper;
@@ -21,7 +22,7 @@ namespace Apartment_Web.Controllers
         public async Task<IActionResult> Index()
         {
             List<ApartmentDTO> list = new();
-            var response = await _apartmentService.GetAllAsync<APIResponse>();
+            var response = await _apartmentService.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<ApartmentDTO>>(Convert.ToString(response.Result));
