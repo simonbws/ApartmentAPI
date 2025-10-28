@@ -2,12 +2,12 @@
 
 namespace Apartment_Web.Services.IServices
 {
-    public interface IApartmentService
+    public interface IApartmentNumberService
     {
-        Task<T> GetAllAsync<T>();
-        Task<T> GetAsync<T>(int id);
-        Task<T> CreateAsync<T>(ApartmentCreateDTO dto);
-        Task<T> UpdateAsync<T>(ApartmentUpdateDTO dto);
-        Task<T> DeleteAsync<T>(int id);
+        Task<T> GetAllAsync<T>(string token);
+        Task<T> GetAsync<T>(int id, string token);
+        Task<T> CreateAsync<T>(ApartmentNumberCreateDTO dto, string token);
+        Task<T> UpdateAsync<T>(ApartmentNumberUpdateDTO dto, string token);
+        Task<T> DeleteAsync<T>(int id, string token);
     }
 }
