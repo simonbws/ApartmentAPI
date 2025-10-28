@@ -14,7 +14,9 @@ builder.Services.AddScoped<IApartmentService, ApartmentService>();
 builder.Services.AddHttpClient<IApartmentNumberService, ApartmentNumberService>();
 builder.Services.AddScoped<IApartmentNumberService, ApartmentNumberService>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddDistributedMemoryCache();
