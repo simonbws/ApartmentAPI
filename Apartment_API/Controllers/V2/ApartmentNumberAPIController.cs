@@ -27,10 +27,10 @@ namespace Apartment_API.Controllers.V2
             _response = new APIResponse();
             _dbApartment = dbApartment;
         }
-        [HttpGet]
+        [HttpGet("GetString")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "Szymon", "Be" };
         }
     }
 

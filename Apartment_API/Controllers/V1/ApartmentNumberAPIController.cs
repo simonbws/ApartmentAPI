@@ -28,6 +28,13 @@ namespace Apartment_API.Controllers.V1
             _dbApartment = dbApartment;
 
         }
+
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "String", "String1" };
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetApartmentNumbers()

@@ -21,7 +21,7 @@ namespace Apartment_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = obj,
-                Url = apartmentUrl + "/api/UsersAuth/login"
+                Url = apartmentUrl + "/api/v1/UsersAuth/login"
             });
         }
 
@@ -31,7 +31,7 @@ namespace Apartment_Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = obj,
-                Url = apartmentUrl + "/api/UsersAuth/register"
+                Url = apartmentUrl + "/api/v1/UsersAuth/register"
             });
         }
     }

@@ -8,7 +8,7 @@ namespace Apartment_API.Controllers.V1
 {
     [Route("api/v{version:apIVersion}/UsersAuth")]
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersionNeutral]
     public class UsersController : Controller
     {
         private readonly IUserRepository _userRepo;
