@@ -118,7 +118,7 @@ builder.Services.AddSwaggerGen(options => {
     });
     options.SwaggerDoc("v2", new OpenApiInfo
     {
-        Version = "v1.0",
+        Version = "v2.0",
         Title = "ApartmentAPI V2",
         Description = "API to manage Apartment",
         TermsOfService = new Uri("https://example.com/terms"),
@@ -144,7 +144,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Apartment_APIV1");
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Apartment_APIV2");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Apartment_APIV2");
     }); 
 }
 

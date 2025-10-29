@@ -9,19 +9,18 @@ using System.Net;
 
 namespace Apartment_API.Controllers
 {
-    [Route("api/v{version:apIVersion}/ApartmentNumberAPI")]
+    [Route("api/v{version:apiVersion}/ApartmentNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
     
-    public class ApartmentNumberAPIController : ControllerBase
+    public class ApartmentNumberV1APIController : ControllerBase
     {
         protected APIResponse _response;
         private readonly IApartmentNumberRepository _dbApartmentNumber;
         private readonly IApartmentRepository _dbApartment;
         private readonly IMapper _mapper;
 
-        public ApartmentNumberAPIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
+        public ApartmentNumberV1APIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
         {
             _dbApartmentNumber = dbApartmentNumber;
             _mapper = mapper;
@@ -29,7 +28,6 @@ namespace Apartment_API.Controllers
             _dbApartment = dbApartment;
 
         }
-        [MapToApiVersion("1.0")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetApartmentNumbers()
@@ -52,13 +50,7 @@ namespace Apartment_API.Controllers
             return _response;
         }
 
-        [MapToApiVersion("2.0")]
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
+     
         [HttpGet("{id:int}", Name = "GetApartmentNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
