@@ -28,6 +28,7 @@ namespace Apartment_API.Controllers.V1
         }
 
         [HttpGet]
+        [ResponseCache(Duration=30)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -54,6 +55,7 @@ namespace Apartment_API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ResponseCache(CacheProfileName ="Default30")]
         public async Task<ActionResult<APIResponse>> GetApartments(int id)
         {
             try

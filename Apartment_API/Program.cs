@@ -30,6 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IApartmentNumberRepository, ApartmentNumberRepository>();
@@ -67,6 +68,12 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddControllers(option =>
 {
+builder.Services.AddControllers(option => {
+    option.CacheProfiles.Add("Default30",
+       new CacheProfile()
+       {
+           Duration = 30
+       });
     //option.ReturnHttpNotAcceptable = true;
 }).AddNewtonsoftJson();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
