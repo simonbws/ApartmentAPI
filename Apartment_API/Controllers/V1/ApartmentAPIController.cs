@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using System.Text.Json;
 
 namespace Apartment_API.Controllers.V1
 {
@@ -32,7 +33,7 @@ namespace Apartment_API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetApartments([FromQuery(Name ="filterOccupancy")] int? occupancy, [FromQuery] string? search)
+        public async Task<ActionResult<APIResponse>> GetApartments([FromQuery(Name ="filterOccupancy")] int? occupancy, [FromQuery] string? search, int pageSize = 2, int pageNumber = 1)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace Apartment_API.Controllers.V1
                 
                 if (occupancy > 0)
                 {
-                    apartmentList = await _dbApartment.GetAllAsync(u => u.Occupancy == occupancy);
+                    apartmentList = await _dbApartment.GetAllAsync(u => u.Occupancy == occupancy, pageSize:pageSize, pageNumber:pageNumber);
                 }
                 else
                 {
@@ -50,7 +51,8 @@ namespace Apartment_API.Controllers.V1
                 {
                     apartmentList = apartmentList.Where(u=> u.Name.ToLower().Contains(search));
                 }
-
+                Pagination pagination = new() { PageNumber = pageNumber, PageSize = pageSize };
+                Response.Headers.Add("P-Pagination", JsonSerializer.Serialize(pagination));
                 _response.Result = _mapper.Map<List<ApartmentDTO>>(apartmentList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
