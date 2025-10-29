@@ -17,6 +17,8 @@ namespace Apartment_API
             CreateMap<ApartmentNumber, ApartmentNumberDTO>().ReverseMap();
             CreateMap<ApartmentNumber, ApartmentNumberCreateDTO>().ReverseMap();
             CreateMap<ApartmentNumber, ApartmentNumberUpdateDTO>().ReverseMap();
+
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
         }
     }
 }
