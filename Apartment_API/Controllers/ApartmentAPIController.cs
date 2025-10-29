@@ -178,7 +178,7 @@ namespace Apartment_API.Controllers
             return _response;
         }
         [Authorize(Roles = "admin")]
-        [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [HttpPut("{id:int}", Name = "UpdateApartment")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> UpdateApartment(int id, [FromBody] ApartmentUpdateDTO updateDTO)
@@ -189,23 +189,9 @@ namespace Apartment_API.Controllers
                 {
                     return BadRequest();
                 }
-                //var villa = ApartmentStore.apartmentList.FirstOrDefault(u => u.Id == id);
-                //villa.Name = villaDTO.Name;
-                //villa.Sqft = villaDTO.Sqft;
-                //villa.Occupancy = villaDTO.Occupancy;
+               
                 Apartment model = _mapper.Map<Apartment>(updateDTO);
-                //Auto Mapper
-                //Apartment model = new()
-                //{
-                //    Name = updateDTO.Name,
-                //    Details = updateDTO.Details,
-                //    ImageUrl = updateDTO.ImageUrl,
-                //    Occupancy = updateDTO.Occupancy,
-                //    Rate = updateDTO.Rate,
-                //    Sqft = updateDTO.Sqft,
-                //    Amenity = updateDTO.Amenity,
-                //    CreatedDate = DateTime.Now
-                //};
+               
                 await _dbApartment.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;

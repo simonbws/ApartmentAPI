@@ -14,7 +14,7 @@ namespace Apartment_Web.Services
         public IHttpClientFactory httpClient { get; set; } // already registered in DI 
         public BaseService(IHttpClientFactory httpClient)
         {
-            this.responseModel = new APIResponse();
+            this.responseModel = new();
             this.httpClient = httpClient;
         }
 

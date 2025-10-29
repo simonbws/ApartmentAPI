@@ -13,7 +13,7 @@ namespace Apartment_Web.Services
         public AuthService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory)
         {
             _clientFactory = clientFactory;
-            apartmentUrl = configuration.GetValue<string>("ServiceUrls:ApartmentAPI");
+            apartmentUrl = configuration.GetValue<string>("ServiceUrls:Apartment_API");
         }
         public Task<T> LoginAsync<T>(LoginRequestDTO obj)
         {

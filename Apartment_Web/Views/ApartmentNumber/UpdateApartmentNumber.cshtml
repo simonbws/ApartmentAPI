@@ -3,7 +3,7 @@
 <form asp-action="UpdateApartmentNumber">
     <br />
     <div class="container border p-3">
-        <h1 class="text-primary">Update Villa</h1>
+        <h1 class="text-primary">Update Apartment</h1>
         <hr />
         <input hidden asp-for="ApartmentNumber.ApartmentNo" />
         <div class="row">
@@ -22,7 +22,7 @@
             </div>
             <div class="col-10 pb-3">
                 <select asp-for="ApartmentNumber.ApartmentID" class="form-select" asp-items="@Model.ApartmentList">
-                    <option disabled selected>--Select Villa--</option>
+                    <option disabled selected>--Select Apartment--</option>
                 </select>
                 <span asp-validation-for="ApartmentNumber.ApartmentID" class="text-danger"></span>
             </div>

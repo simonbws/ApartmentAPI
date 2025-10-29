@@ -86,8 +86,8 @@ namespace Apartment_Web.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateApartmentNumber(int apartmentNo)
         {
-            ApartmentNumberUpdateViewModel apartmentNumberViewModel = new ApartmentNumberUpdateViewModel();
-            var response = await _apartmentService.GetAsync<APIResponse>(apartmentNo, HttpContext.Session.GetString(SD.SessionToken));
+            ApartmentNumberUpdateViewModel apartmentNumberViewModel = new();
+            var response = await _apartmentNumberService.GetAsync<APIResponse>(apartmentNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 ApartmentNumberDTO model = JsonConvert.DeserializeObject<ApartmentNumberDTO>(Convert.ToString(response.Result));
@@ -141,8 +141,8 @@ namespace Apartment_Web.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteApartmentNumber(int apartmentNo)
         {
-            ApartmentNumberDeleteViewModel apartmentNumberViewModel = new ApartmentNumberDeleteViewModel();
-            var response = await _apartmentService.GetAsync<APIResponse>(apartmentNo, HttpContext.Session.GetString(SD.SessionToken));
+            ApartmentNumberDeleteViewModel apartmentNumberViewModel = new();
+            var response = await _apartmentNumberService.GetAsync<APIResponse>(apartmentNo, HttpContext.Session.GetString(SD.SessionToken));
             if (response != null && response.IsSuccess)
             {
                 ApartmentNumberDTO model = JsonConvert.DeserializeObject<ApartmentNumberDTO>(Convert.ToString(response.Result));
