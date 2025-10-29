@@ -12,7 +12,8 @@ using System.Net;
 
 namespace Apartment_API.Controllers
 {
-    [Route("api/ApartmentAPI")]
+    [Route("api/v{version:apIVersion}/ApartmentAPI")]
+    [ApiVersion("1.0")]
     [ApiController]
     public class ApartmentAPIController : ControllerBase
     {
