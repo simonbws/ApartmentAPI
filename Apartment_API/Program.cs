@@ -116,6 +116,23 @@ builder.Services.AddSwaggerGen(options => {
             Url = new Uri("https://example.com/license")
         }
     });
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+        Version = "v1.0",
+        Title = "ApartmentAPI V2",
+        Description = "API to manage Apartment",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "google",
+            Url = new Uri("https://google.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example License",
+            Url = new Uri("https://example.com/license")
+        }
+    });
 
 });
 var app = builder.Build();
@@ -127,6 +144,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Apartment_APIV1");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Apartment_APIV2");
     }); 
 }
 
