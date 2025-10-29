@@ -33,7 +33,7 @@ namespace Apartment_API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetApartments([FromQuery(Name ="filterOccupancy")] int? occupancy, [FromQuery] string? search, int pageSize = 2, int pageNumber = 1)
+        public async Task<ActionResult<APIResponse>> GetApartments([FromQuery(Name ="filterOccupancy")] int? occupancy, [FromQuery] string? search, int pageSize = 0, int pageNumber = 1)
         {
             try
             {
