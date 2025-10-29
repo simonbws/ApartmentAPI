@@ -32,11 +32,20 @@ namespace Apartment_API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetApartments()
+        public async Task<ActionResult<APIResponse>> GetApartments([FromQuery(Name ="filterOccupancy")] int? occupancy)
         {
             try
             {
-                IEnumerable<Apartment> apartmentList = await _dbApartment.GetAllAsync();
+                IEnumerable<Apartment> apartmentList; 
+                
+                if (occupancy > 0)
+                {
+                    apartmentList = await _dbApartment.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    apartmentList = await _dbApartment.GetAllAsync();
+                }
                 _response.Result = _mapper.Map<List<ApartmentDTO>>(apartmentList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
