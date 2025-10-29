@@ -1,20 +1,26 @@
 ﻿using Apartment_API.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Apartment_API.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<LocalUser> LocalUsers { get; set; }
         public DbSet<ApartmentNumber> ApartmentNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Apartment>().HasData(
                 new Apartment
                 {
