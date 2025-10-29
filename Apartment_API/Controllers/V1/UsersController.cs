@@ -4,7 +4,7 @@ using Apartment_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Apartment_API.Controllers
+namespace Apartment_API.Controllers.V1
 {
     [Route("api/v{version:apIVersion}/UsersAuth")]
     [ApiController]
@@ -16,7 +16,7 @@ namespace Apartment_API.Controllers
         public UsersController(IUserRepository userRepo)
         {
             _userRepo = userRepo;
-            this._response = new ();
+            _response = new();
         }
 
         [HttpPost("login")]

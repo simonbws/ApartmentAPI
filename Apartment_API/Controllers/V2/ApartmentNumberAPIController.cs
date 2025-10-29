@@ -7,26 +7,26 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Apartment_API.Controllers
+namespace Apartment_API.Controllers.V2
 {
     [Route("api/v{version:apiVersion}/ApartmentNumberAPI")]
     [ApiController]
     [ApiVersion("2.0")]
-    
-    public class ApartmentNumberV2APIController : ControllerBase
+
+    public class ApartmentNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
         private readonly IApartmentNumberRepository _dbApartmentNumber;
         private readonly IApartmentRepository _dbApartment;
         private readonly IMapper _mapper;
 
-        public ApartmentNumberV2APIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
+        public ApartmentNumberAPIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
         {
             _dbApartmentNumber = dbApartmentNumber;
             _mapper = mapper;
-            this._response = new APIResponse();
+            _response = new APIResponse();
             _dbApartment = dbApartment;
-        }    
+        }
         [HttpGet]
         public IEnumerable<string> Get()
         {

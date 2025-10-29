@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace Apartment_API.Controllers
+namespace Apartment_API.Controllers.V1
 {
     [Route("api/v{version:apIVersion}/ApartmentAPI")]
     [ApiVersion("1.0")]
@@ -24,7 +24,7 @@ namespace Apartment_API.Controllers
         {
             _dbApartment = dbApartment;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
         }
 
         [HttpGet]
@@ -83,7 +83,7 @@ namespace Apartment_API.Controllers
             return _response;
         }
         [HttpPost]
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -190,9 +190,9 @@ namespace Apartment_API.Controllers
                 {
                     return BadRequest();
                 }
-               
+
                 Apartment model = _mapper.Map<Apartment>(updateDTO);
-               
+
                 await _dbApartment.UpdateAsync(model);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;

@@ -7,24 +7,24 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Apartment_API.Controllers
+namespace Apartment_API.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/ApartmentNumberAPI")]
     [ApiController]
     [ApiVersion("1.0")]
-    
-    public class ApartmentNumberV1APIController : ControllerBase
+
+    public class ApartmentNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
         private readonly IApartmentNumberRepository _dbApartmentNumber;
         private readonly IApartmentRepository _dbApartment;
         private readonly IMapper _mapper;
 
-        public ApartmentNumberV1APIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
+        public ApartmentNumberAPIController(IApartmentNumberRepository dbApartmentNumber, IMapper mapper, IApartmentRepository dbApartment)
         {
             _dbApartmentNumber = dbApartmentNumber;
             _mapper = mapper;
-            this._response = new APIResponse();
+            _response = new APIResponse();
             _dbApartment = dbApartment;
 
         }
@@ -36,9 +36,9 @@ namespace Apartment_API.Controllers
             {
 
 
-                IEnumerable<ApartmentNumber> apartmentNumberList = await _dbApartmentNumber.GetAllAsync(includeProperties:"Apartment");
+                IEnumerable<ApartmentNumber> apartmentNumberList = await _dbApartmentNumber.GetAllAsync(includeProperties: "Apartment");
                 _response.Result = _mapper.Map<List<ApartmentNumberDTO>>(apartmentNumberList);
-                _response.StatusCode = System.Net.HttpStatusCode.OK;
+                _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Apartment_API.Controllers
             return _response;
         }
 
-     
+
         [HttpGet("{id:int}", Name = "GetApartmentNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
