@@ -74,9 +74,9 @@ The goal is to show a complete CRUD system for apartments, with user registratio
 5. Registration and login: Register a user with the `Admin` or `Customer` role. When using the API via Postman, a JWT token is generated during login, which must be used in the `Authorisation: Bearer <token>` header when accessing protected API endpoints.
 ---
 ## Based on
-Author: Me
-This project was inspired by an online Udemy course that demonstrates how to use ASP.NET Core, Microsoft Identity, and JWT in real-world scenarios. 
-
+Author: simonbws
+This project was inspired by an online Udemy course. 
+[View the Certificate for this Course] https://www.udemy.com/certificate/UC-76d41f5a-d687-4275-8aca-06352d3278dd/
 ### Screenshots:
 
 <img width="1039" height="939" alt="image" src="https://github.com/user-attachments/assets/b833cf74-7739-42df-bc9f-7155dfc62764" />
