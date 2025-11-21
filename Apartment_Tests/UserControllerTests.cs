@@ -107,5 +107,6 @@ namespace Apartment_Tests
             var content = await response.Content.ReadFromJsonAsync<APIResponse>();
             content.IsSuccess.Should().BeFalse();
         }
+
     }
 }
