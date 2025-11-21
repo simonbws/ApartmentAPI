@@ -34,14 +34,12 @@ namespace Apartment_Tests
                     {
                         services.Remove(descriptor);
                     }
-
                     // Add InMemory db
                     services.AddDbContext<AppDbContext>(options =>
                         options.UseInMemoryDatabase("TestApartmentDb"));
                     // add required password configuration
                     services.Configure<IdentityOptions>(options =>
                     {
-                        options.Password.RequiredLength = 6;
                         options.Password.RequireDigit = false;
                         options.Password.RequireNonAlphanumeric = false;
                         options.Password.RequireLowercase = false;
@@ -92,6 +90,22 @@ namespace Apartment_Tests
             var secondResponse = await _client.PostAsJsonAsync("/api/v1/UsersAuth/register", request);
 
             secondResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }     
+        }
+        [Fact]
+        public async Task Login_ShouldReturnBadRequest_ForInvalidCredentials()
+        {
+            var loginRequest = new LoginRequestDTO
+            {
+                UserName = "nonexistent@test.com",
+                Password = "wrongpass"
+            };
+
+            var response = await _client.PostAsJsonAsync("/api/v1/UsersAuth/login", loginRequest);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var content = await response.Content.ReadFromJsonAsync<APIResponse>();
+            content.IsSuccess.Should().BeFalse();
+        }
     }
 }
